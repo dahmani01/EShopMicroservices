@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace BuildingBlocks.CQRS;
 
-
 public interface ICommand : ICommand<Unit>
 {
 }
