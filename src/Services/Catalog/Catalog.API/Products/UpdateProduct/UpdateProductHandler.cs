@@ -30,6 +30,7 @@ internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<Upd
         product.ImageFile = command.ImageFile;
         product.Price = command.Price;
 
+        session.Store(product);
         await session.SaveChangesAsync();
 
         return new UpdateProductResult(true);
