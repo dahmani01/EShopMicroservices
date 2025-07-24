@@ -30,7 +30,7 @@ internal class DeleteProductHandler : ICommandHandler<DeleteProductCommand, Dele
         var product = await _session.LoadAsync<Product>(command.Id, cancellationToken);
         if (product == null)
         {
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(command.Id);
         }
 
         _session.Delete(product);

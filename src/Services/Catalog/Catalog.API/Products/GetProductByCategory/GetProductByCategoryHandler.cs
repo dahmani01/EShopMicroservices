@@ -4,21 +4,18 @@ public record GetProductByCategoryQuery(String Category) : IQuery<GetProductByCa
 
 public record GetProductByCategoryResult(IEnumerable<Product> Products);
 
-internal class GetProductByCategoryQueryHandler(IDocumentSession session, ILogger<GetProductByCategoryResult> logger) 
+internal class GetProductByCategoryQueryHandler(IDocumentSession session, ILogger<GetProductByCategoryResult> logger)
     : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
 {
-    public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery query, CancellationToken cancellationToken)
+    public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery query,
+        CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetProductByCategoryHandler query {@Query}", query); 
+        logger.LogInformation("GetProductByCategoryHandler query {@Query}", query);
 
-        var products = await session.Query<Product>().Where( p => p.Category.Contains(query.Category))
+        var products = await session.Query<Product>().Where(p => p.Category.Contains(query.Category))
             .ToListAsync(cancellationToken);
 
-        if (products.Any())
-        {
-            return new GetProductByCategoryResult(products);
-        }
 
-        throw new ProductNotFoundException(); 
+        return new GetProductByCategoryResult(products);
     }
 }
