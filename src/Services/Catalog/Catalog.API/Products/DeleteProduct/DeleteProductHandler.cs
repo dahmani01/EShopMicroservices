@@ -1,8 +1,18 @@
-﻿namespace Catalog.API.Products.DeleteProduct;
+﻿using FluentValidation;
+
+namespace Catalog.API.Products.DeleteProduct;
 
 public record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
 
 public record DeleteProductResult(bool IsSuccess);
+
+public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
+{
+    public DeleteProductCommandValidator()
+    {
+        RuleFor(command => command.Id).NotEmpty().WithMessage("Id cannot be empty");
+    }
+}
 
 internal class DeleteProductHandler : ICommandHandler<DeleteProductCommand, DeleteProductResult>
 {

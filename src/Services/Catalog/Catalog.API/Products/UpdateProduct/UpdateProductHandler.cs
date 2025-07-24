@@ -1,4 +1,5 @@
-﻿
+﻿using FluentValidation;
+
 namespace Catalog.API.Products.UpdateProduct;
 
 public record UpdateProductCommand(
@@ -7,16 +8,27 @@ public record UpdateProductCommand(
     string Description,
     List<string> Category,
     string ImageFile,
-    decimal Price) : ICommand<UpdateProductResult>; 
+    decimal Price) : ICommand<UpdateProductResult>;
 
 public record UpdateProductResult(bool IsSuccess);
 
-internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductResult> logger) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+{
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(command => command.Id).NotEmpty().WithMessage("Id cannot be empty");
+        RuleFor(command => command.Name).NotEmpty().WithMessage("Name is required").MinimumLength(3)
+            .WithMessage("Name must have at least 3 characters");
+    }
+}
+
+internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductResult> logger)
+    : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
     public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
         logger.LogInformation("UpdateProcutCommandHandler {@Command}", command);
-        
+
         var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
         if (product == null)
