@@ -9,16 +9,17 @@ public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TReq
     where TRequest : notnull, IRequest<TResponse>
     where TResponse : notnull
 {
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("[Start] Handling request={RequestName} - Response={@Response}", typeof(TRequest).Name,
+        logger.LogInformation("[Start] Handling request={RequestName} - Response={@Response} - Request{@Request}",
+            typeof(TRequest).Name,
             typeof(TResponse).Name, request);
 
         var timer = new Stopwatch();
         timer.Start();
 
-        var response = next();
+        var response = await next();
 
         timer.Stop();
         var timeTaken = timer.Elapsed;
@@ -29,7 +30,7 @@ public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TReq
                 typeof(TRequest).Name, timeTaken.TotalMilliseconds);
         }
 
-        logger.LogInformation("Handled {RequestName} with response: {@Response}", typeof(TRequest).Name, response);
+        logger.LogInformation("[End] Handled {RequestName} with response: {@Response}", typeof(TRequest).Name, response);
 
         return response;
     }
