@@ -8,7 +8,7 @@ public class ShoppingCart
 
     public ShoppingCart(string userName)
     {
-        UserName = userName; 
+        UserName = userName;
     }
 
     //Required for mapping 

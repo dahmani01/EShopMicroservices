@@ -8,18 +8,18 @@ public class GetBasketEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.Map("/basket/{userName}", async(string userName, ISender sender) =>
-        {
-            var result = await sender.Send(new GetBasketQuery(userName)); 
+        app.Map("/basket/{userName}", async (string userName, ISender sender) =>
+            {
+                var result = await sender.Send(new GetBasketQuery(userName));
 
-            var response = result.Adapt<GetBasketResponse>();
+                var response = result.Adapt<GetBasketResponse>();
 
-            return Results.Ok(response);
-        })
-        .WithName("GetBasketQuery")
-        .Produces<GetBasketResponse>()
-        .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("Get Basket by UserName")
-        .WithDescription("Get Basket by UserName"); 
+                return Results.Ok(response);
+            })
+            .WithName("GetBasketQuery")
+            .Produces<GetBasketResponse>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Get Basket by UserName")
+            .WithDescription("Get Basket by UserName");
     }
 }
