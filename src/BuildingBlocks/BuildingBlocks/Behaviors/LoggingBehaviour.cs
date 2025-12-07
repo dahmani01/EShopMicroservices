@@ -30,7 +30,8 @@ public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TReq
                 typeof(TRequest).Name, timeTaken.TotalMilliseconds);
         }
 
-        logger.LogInformation("[End] Handled {RequestName} with response: {@Response}", typeof(TRequest).Name, response);
+        logger.LogInformation("[End] Handled {RequestName} with response: {@Response}", typeof(TRequest).Name,
+            response);
 
         return response;
     }

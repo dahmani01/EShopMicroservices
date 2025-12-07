@@ -38,7 +38,7 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger)
                 exception.GetType().Name,
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError)
         };
-        
+
         var problemDetails = new ProblemDetails
         {
             Title = details.Title,
@@ -46,14 +46,14 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger)
             Status = details.StatusCode,
             Instance = context.Request.Path,
         };
-        
+
         problemDetails.Extensions.Add("traceId", context.TraceIdentifier);
-        
+
         if (exception is ValidationException validationException)
         {
             problemDetails.Extensions.Add("errors", validationException.Errors);
         }
-        
+
         context.Response.ContentType = "application/problem+json";
         await context.Response.WriteAsJsonAsync(problemDetails, cancellationToken: cancellationToken);
         return true;

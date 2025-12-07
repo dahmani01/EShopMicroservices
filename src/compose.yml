@@ -6,8 +6,8 @@
     image: postgres:16
   
   distributedcache:
-    image: redis 
-    
+    image: redis
+  
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalog.api
     build:

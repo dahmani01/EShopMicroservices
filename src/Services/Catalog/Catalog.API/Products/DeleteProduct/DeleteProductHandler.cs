@@ -17,10 +17,12 @@ public class DeleteProductCommandValidator : AbstractValidator<DeleteProductComm
 internal class DeleteProductHandler : ICommandHandler<DeleteProductCommand, DeleteProductResult>
 {
     private readonly IDocumentSession _session;
+
     public DeleteProductHandler(IDocumentSession session)
     {
         _session = session;
     }
+
     public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {
         var product = await _session.LoadAsync<Product>(command.Id, cancellationToken);

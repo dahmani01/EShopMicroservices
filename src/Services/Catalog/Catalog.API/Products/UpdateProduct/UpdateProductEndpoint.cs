@@ -15,19 +15,19 @@ public class UpdateProductEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("products/", async (UpdateProductRequest request, ISender sender) =>
-        {
-            var command = request.Adapt<UpdateProductCommand>();
-            
-            var result = await sender.Send(command);
+            {
+                var command = request.Adapt<UpdateProductCommand>();
 
-            var response = result.Adapt<UpdateProductResponse>();
+                var result = await sender.Send(command);
 
-            return Results.Ok(response);
-        })
-        .WithName("UpdateProduct")
-        .Produces<UpdateProductResponse>(StatusCodes.Status200OK)
-        .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("UpdateProduct")
-        .WithDescription("Updates a given Product");
+                var response = result.Adapt<UpdateProductResponse>();
+
+                return Results.Ok(response);
+            })
+            .WithName("UpdateProduct")
+            .Produces<UpdateProductResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("UpdateProduct")
+            .WithDescription("Updates a given Product");
     }
 }

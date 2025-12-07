@@ -19,7 +19,8 @@ public class DiscountService : Grpc.DiscountService.DiscountServiceBase
         return base.UpdateDiscount(request, context);
     }
 
-    public override Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
+    public override Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request,
+        ServerCallContext context)
     {
         return base.DeleteDiscount(request, context);
     }
