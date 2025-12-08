@@ -1,10 +1,13 @@
-using Discount.Grpc;
+using Discount.Grpc.Data;
+using Microsoft.EntityFrameworkCore;
 using DiscountService = Discount.Grpc.Services.DiscountService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddDbContext<DiscountContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Database")));
 
 var app = builder.Build();
 
