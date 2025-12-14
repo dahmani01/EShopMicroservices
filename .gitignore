@@ -6,6 +6,11 @@
 # Rider files
 .idea
 
+#sqlite db files
+*.db
+*.db-shm
+*.db-wal
+
 
 # User-specific files
 *.rsuser
