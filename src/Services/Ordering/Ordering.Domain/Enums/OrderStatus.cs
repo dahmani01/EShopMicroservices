@@ -1,4 +1,5 @@
 ﻿namespace Ordering.Domain.Enums;
+
 public enum OrderStatus
 {
     Draft = 1,
